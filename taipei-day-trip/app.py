@@ -38,7 +38,7 @@ def attractions():
         # keyword
         if keyword:
             cursor.execute(
-                f'SELECT * FROM `attractions2` WHERE `category` LIKE "{keyword}" or `name` LIKE "%{keyword}%" LIMIT {page*12}, 13'
+                f'SELECT * FROM attractions2 WHERE category=%s or name LIKE %s LIMIT %s, %s', (keyword, "%"+keyword+"%", page*12, 13)
             )
             count = cursor.fetchall()
             if len(count) == 0:
@@ -77,7 +77,7 @@ def attractions():
         # without keyword
         else:        
             cursor.execute(
-                f'SELECT * FROM attractions2 LIMIT {page*12}, 13'
+                f'SELECT * FROM attractions2 LIMIT %s, %s', (page*12, 13)
             )
             items = cursor.fetchall()
 
@@ -131,7 +131,7 @@ def attractionId(attractionId):
         cursor = connection_object.cursor(dictionary = True)
 
         cursor.execute(
-            "SELECT * FROM `attractions2` WHERE `id` = %s" % attractionId
+            "SELECT * FROM attractions2 WHERE id = %s" % attractionId
         )
         data = cursor.fetchone()
 
@@ -176,7 +176,7 @@ def categories():
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
 
-        cursor.execute("SELECT DISTINCT `category` FROM `attractions2`")
+        cursor.execute("SELECT DISTINCT category FROM attractions2")
         categories = cursor.fetchall()
         print(categories)
 
