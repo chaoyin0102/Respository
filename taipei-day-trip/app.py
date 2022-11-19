@@ -175,7 +175,7 @@ def categories():
         connection_object = connection_pool.get_connection()
         cursor = connection_object.cursor(dictionary=True)
 
-        cursor.execute("SELECT DISTINCT `category` FROM `attractions`")
+        cursor.execute("SELECT DISTINCT `category` FROM `attractions2`")
         categories = cursor.fetchall()
         print(categories)
 
