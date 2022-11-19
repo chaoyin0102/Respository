@@ -38,7 +38,7 @@ def attractions():
         # keyword
         if keyword:
             cursor.execute(
-                f'SELECT * FROM `attractions2` WHERE `category` LIKE "{keyword}" or `name` LIKE "%{keyword}%"'
+                f'SELECT * FROM `attractions2` WHERE `category` LIKE "{keyword}" or `name` LIKE "%{keyword}%" LIMIT {page*12}, 13'
             )
             count = cursor.fetchall()
             if len(count) == 0:
@@ -48,13 +48,14 @@ def attractions():
                 })
             
             else:
-                if len(count) - page * 12 > 12:
+                if len(count) == 13:
                     nextPage = page +1
+                    count = count[:-1]
                 else:
                     nextPage = None
 
                 dataList = []
-                for i in range(len(count) - page*12):
+                for i in range(len(count)):
                     dataList.append({"id": count[i]["id"],
                                     "name": count[i]["name"],
                                      "category": count[i]["category"],
